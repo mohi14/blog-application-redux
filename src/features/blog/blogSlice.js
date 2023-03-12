@@ -15,6 +15,29 @@ export const fetchBlog = createAsyncThunk("blog/fetchBlog", async (id) => {
     return response.data
 })
 
+export const likeBlog = createAsyncThunk("blog/likeBlog", async ({ id, likes }) => {
+    const res = await axios.patch(`blogs/${id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        },
+        likes: likes
+    })
+
+    return res.data.likes
+})
+
+export const savedBlog = createAsyncThunk("blog/savedBlog", async ({ id, isSaved }) => {
+    const res = await axios.patch(`blogs/${id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        },
+        isSaved: isSaved
+    })
+    return res.data.isSaved
+})
+
 
 const blogSlice = createSlice({
     name: "blog",
@@ -34,6 +57,12 @@ const blogSlice = createSlice({
                 state.blog = {};
                 state.isError = true;
                 state.error = action.payload;
+            })
+            .addCase(likeBlog.fulfilled, (state, action) => {
+                state.blog.likes = action.payload
+            })
+            .addCase(savedBlog.fulfilled, (state, action) => {
+                state.blog.isSaved = action.payload
             })
     }
 })
