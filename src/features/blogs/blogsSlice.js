@@ -9,8 +9,8 @@ const initialState = {
     error: ""
 }
 
-export const fetchBlogs = createAsyncThunk("blogs/fetchBlogs", async () => {
-    const blogs = await getBlogs()
+export const fetchBlogs = createAsyncThunk("blogs/fetchBlogs", async ({ sort, isSaved }) => {
+    const blogs = await getBlogs(sort, isSaved)
     return blogs;
 })
 

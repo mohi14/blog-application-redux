@@ -7,10 +7,11 @@ const Blogs = () => {
     const dispatch = useDispatch()
 
     const { blogs, isError, isLoading, error } = useSelector(state => state.blogs)
+    const { sort, isSaved } = useSelector(state => state.filter)
 
     useEffect(() => {
-        dispatch(fetchBlogs())
-    }, [dispatch])
+        dispatch(fetchBlogs({ sort, isSaved }))
+    }, [dispatch, sort, isSaved])
 
     let content;
 
